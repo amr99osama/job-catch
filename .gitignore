@@ -23,8 +23,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.env
+*.env
 node_modules
-project-copy
-project-copy.zip
-README.md
+*project-copy
+*project-copy.zip
+*README.md
