@@ -6,7 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+project-copy.zip
+README.md
 node_modules
 dist
 dist-ssr
@@ -25,4 +26,5 @@ dist-ssr
 .env
 node_modules
 project-copy
+project-copy.zip
 README.md
