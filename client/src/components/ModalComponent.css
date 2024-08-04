@@ -1,0 +1,22 @@
+.custom-modal .modal-dialog {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  animation: slide-down 0.3s ease-out;
+}
+.modal-title,
+.modal-body {
+  color: #000 !important;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
