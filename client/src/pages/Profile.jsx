@@ -1,7 +1,7 @@
-import { FormRow } from "../components";
+import { FormRow, SubmitBtn } from "../components";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { useOutletContext } from "react-router-dom";
-import { useNavigation, Form } from "react-router-dom";
+import { Form } from "react-router-dom";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 
@@ -27,8 +27,8 @@ const Profile = () => {
   // console.log(user);
   const { name, lastName, email, location } = user.user;
   // console.log(name);
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
+  // const navigation = useNavigation();
+  // const isSubmitting = navigation.state === "submitting";
   return (
     <Wrapper>
       <Form method="post" className="form" encType="multipart/form-data">
@@ -56,13 +56,14 @@ const Profile = () => {
           />
           <FormRow type="email" name="email" defaultValue={email} />
           <FormRow type="text" name="location" defaultValue={location} />
-          <button
+          {/* <button
             className="btn btn-block form-btn"
             type="submit"
             disabled={isSubmitting}
           >
             {isSubmitting ? "submitting..." : "save changes"}
-          </button>
+          </button> */}
+          <SubmitBtn formBtn />
         </div>
       </Form>
     </Wrapper>
