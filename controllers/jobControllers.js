@@ -2,8 +2,6 @@ import Job from "../models/jobModel.js";
 import { StatusCodes } from "http-status-codes";
 // import { NotFoundError } from "../errors/customErrors.js";
 // nano id for generating a new ID
-import mongoose from "mongoose";
-import day from "dayjs";
 import { nanoid } from "nanoid";
 
 let jobs = [
@@ -97,32 +95,4 @@ export const deleteJob = async (req, res) => {
   // const newJobList = jobs.filter((job) => job.id === id);
   // jobs = newJobList;
   res.status(StatusCodes.OK).json({ msg: "job Deleted ! ", job: removedJob });
-};
-
-/// request for stats
-export const showStats = async (req, res) => {
-  const defaultStatsSample = {
-    pending: 22,
-    interview: 11,
-    declined: 4,
-  };
-  let monthlyApps = [
-    {
-      date: "May 23",
-      count: 12,
-    },
-    {
-      date: "Jun 23",
-      count: 10,
-    },
-    {
-      date: "July 23",
-      count: 8,
-    },
-    {
-      date: "Aug 23",
-      count: 17,
-    },
-  ];
-  res.status(StatusCodes.OK).json({ defaultStatsSample, monthlyApps });
 };

@@ -8,12 +8,6 @@ import jobRouter from "./routers/jobRouter.js";
 import authRouter from "./routers/authRouter.js";
 import userRouter from "./routers/userRouter.js";
 
-/// public
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import path from "path";
-
-/// middlewares
 import errorHandlerMiddleware from "./middlewares/errorHandleMiddleware.js";
 import { authenticateUser } from "./middlewares/authMiddleware.js";
 /// mongoose
@@ -22,9 +16,6 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 // generate express validator
 // import { body, validationResult } from "express-validator";
-
-/// import cloudinary
-import cloudinary from "cloudinary";
 
 const app = express();
 /// Built in Middleware to accept Json
@@ -46,15 +37,11 @@ app.use(cookieParser());
 /// .env for dotenc
 dotenv.config();
 
-// for directory
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
 /// checkers for .env variables
 if (process.env.NODE_ENV === "development") {
   // morgan use
   app.use(morgan("dev"));
 }
-app.use(express.static(path.resolve(__dirname, "./public")));
 
 app.get("/", (req, res) => {
   res.send("Hello Project !!");
@@ -114,12 +101,6 @@ app.use((err, req, res, next) => {
 
 /// for port .. according to env port
 const port = process.env.PORT || 5100;
-// cloudinary config
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUD_API_KEY,
-  api_secret: process.env.CLOUD_API_SECRET,
-});
 
 /// mongoDB Connection
 try {

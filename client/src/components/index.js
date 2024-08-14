@@ -6,7 +6,4 @@ export { default as Navbar } from "./Navbar";
 export { default as FormRowSelect } from "./FormRowSelect";
 export { default as SearchContainer } from "./SearchContainer";
 export { default as JobsContainer } from "./JobsContainer";
-export { default as Job } from "./Job";
 export { default as JobInfo } from "./JobInfo";
-export { default as ModalComponent } from "./ModalComponent";
-export { default as SubmitBtn } from "./SubmitBtn";

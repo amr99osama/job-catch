@@ -112,7 +112,7 @@ export const validateUpdateUserInput = withValidationErrors([
     .withMessage("Invalid Email Format")
     .custom(async (email, { req }) => {
       const user = await User.findOne({ email });
-      if (user && user._id.toString() !== req.user.userId) {
+      if (user && user._id.toString() === req.user.userId) {
         throw new BadRequestError("Email already Registered");
       }
     }),
