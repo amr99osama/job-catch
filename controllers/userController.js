@@ -32,6 +32,7 @@ export const updateUser = async (req, res) => {
   }
   //console.log(obj);
   const updatedUser = await User.findByIdAndUpdate(req.user.userId, newUser);
+  console.log("the updated user", updateUser);
   // if there's updated user and want to upload new image and remove the old one
   if (req.file && updateUser.avatarPublicId) {
     // remove the old ASSET IN CLOUDINARY

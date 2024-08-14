@@ -51,7 +51,7 @@ const Register = () => {
           defaultValue="secret123"
         />
 
-        <SubmitBtn />
+        <SubmitBtn submitTxt="Register" />
         <p>
           Already a member ?{" "}
           <Link to="/login" className="member-btn">

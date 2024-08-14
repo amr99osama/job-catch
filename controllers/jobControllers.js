@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 // import { NotFoundError } from "../errors/customErrors.js";
 // nano id for generating a new ID
 import mongoose from "mongoose";
-import day from "dayjs";
+import dayjs from "dayjs";
 import { nanoid } from "nanoid";
 
 let jobs = [
@@ -101,28 +101,81 @@ export const deleteJob = async (req, res) => {
 
 /// request for stats
 export const showStats = async (req, res) => {
-  const defaultStatsSample = {
-    pending: 22,
-    interview: 11,
-    declined: 4,
+
+  // let monthlyApps = [
+  //   {
+  //     date: "May 23",
+  //     count: 12,
+  //   },
+  //   {
+  //     date: "Jun 23",
+  //     count: 10,
+  //   },
+  //   {
+  //     date: "July 23",
+  //     count: 8,
+  //   },
+  //   {
+  //     date: "Aug 23",
+  //     count: 17,
+  //   },
+  // ];
+  let stats = await Job.aggregate([
+    {
+      // get all jobs are created by current user
+      $match: {
+        createdBy: new mongoose.Types.ObjectId(req.user.userId)
+      }
+    },
+    {
+      $group: {
+        _id: '$jobStatus', count: { $sum: 1 }
+      },
+    }
+  ]);
+
+  /// turn this array into object using reduce method
+  stats = stats.reduce((acc, curr) => {
+    const { _id: title, count } = curr;
+    acc[title] = count;
+    return acc;
+  }, {})
+  const defaultStats = {
+    pending: stats.pending || 0,
+    interview: stats.interview || 0,
+    declined: stats.declined || 0,
   };
-  let monthlyApps = [
+  console.log(stats);
+
+
+
+  /// monthly apps 
+  let monthlyApps = await Job.aggregate([
     {
-      date: "May 23",
-      count: 12,
+      // get all jobs are created by current user
+      $match: {
+        createdBy: new mongoose.Types.ObjectId(req.user.userId)
+      }
     },
     {
-      date: "Jun 23",
-      count: 10,
+      $group: {
+        _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
+        count: { $sum: 1 }
+      }
     },
     {
-      date: "July 23",
-      count: 8,
+      $sort: { '_id.year': -1, "_id.month": -1 }
     },
     {
-      date: "Aug 23",
-      count: 17,
-    },
-  ];
-  res.status(StatusCodes.OK).json({ defaultStatsSample, monthlyApps });
+      $limit: 6
+    }
+  ])
+  const defaultMonthlyApps = monthlyApps.map(item => {
+    return {
+      date: `${dayjs().month(item._id.month - 1).format('MMM')} ${String(item._id.year).slice(-2)}`,
+      count: item.count
+    };
+  }).reverse()
+  console.log(defaultMonthlyApps)
+  res.status(StatusCodes.OK).json({ defaultStats, defaultMonthlyApps });
 };

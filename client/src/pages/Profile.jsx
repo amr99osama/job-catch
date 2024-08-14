@@ -63,7 +63,7 @@ const Profile = () => {
           >
             {isSubmitting ? "submitting..." : "save changes"}
           </button> */}
-          <SubmitBtn formBtn />
+          <SubmitBtn formBtn submitTxt="Update Profile" />
         </div>
       </Form>
     </Wrapper>

@@ -10,3 +10,9 @@ export { default as Job } from "./Job";
 export { default as JobInfo } from "./JobInfo";
 export { default as ModalComponent } from "./ModalComponent";
 export { default as SubmitBtn } from "./SubmitBtn";
+export { default as StatsContainer } from "./StatsContainer";
+export { default as AreaChartComponent } from "./AreaChartComponent";
+export { default as BarChartComponent } from "./BarChartComponent";
+export { default as ChartsContainer } from "./ChartsContainer";
+
+

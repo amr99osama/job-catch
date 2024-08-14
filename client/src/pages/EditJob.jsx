@@ -69,7 +69,7 @@ const EditJob = () => {
           >
             {isSubmitting ? "submitting..." : "submit"}
           </button> */}
-          <SubmitBtn formBtn />
+          <SubmitBtn formBtn submitTxt="Edit Job" />
         </div>
       </Form>
     </Wrapper>

@@ -56,7 +56,7 @@ const Login = () => {
         {/* <button type="submit" className="btn btn-block" disabled={isSubmitting}>
           {isSubmitting ? "submitting .." : "submit"}
         </button> */}
-        <SubmitBtn />
+        <SubmitBtn submitTxt="Login" />
         <p>
           Not a Member Yet ?
           <Link to="/register" className="member-btn">
