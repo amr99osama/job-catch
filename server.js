@@ -99,6 +99,11 @@ app.use("/api/v1/auth", authRouter);
 //   res.json({ msg: "test route" });
 // });
 
+// now for build version for client
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./public", "index.html"));
+});
+
 //// not found and error routes
 app.use("*", (req, res) => {
   res.status(404).json({ Msg: "Not Found !" });

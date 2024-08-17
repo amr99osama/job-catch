@@ -26,11 +26,57 @@ let jobs = [
 /// request to get all  job's
 
 export const getAllJobs = async (req, res) => {
-  // get all jobs
-  // now adding createdBy to check the user with token and authorized access
-  const jobs = await Job.find({ createdBy: req.user.userId });
-  console.log(jobs);
-  return res.status(StatusCodes.OK).json(jobs);
+  // the query added to the search 
+  // search applied for jon position and company name
+  // job
+  const { search, jobStatus, jobType, sort } = req.query;
+  const queryObject = {
+    createdBy: req.user.userId,
+  }
+  console.log("the query for jobstatus", jobStatus);
+  if (search) {
+    // search regex for position and company
+    queryObject.$or = [
+      { position: { $regex: search, $options: "i" } },
+      { company: { $regex: search, $options: "i" } },
+    ];
+  }
+  // if job status is defined and not equal to all .. get the required jobStatus
+  if (jobStatus && jobStatus !== "all") {
+    queryObject.jobStatus = jobStatus;
+  }
+  // if job type is defined and not equal to all .. get the required jobType
+
+  if (jobType && jobType !== "all") {
+    queryObject.jobType = jobType;
+  }
+
+  /// sortOptions for each option for sort options
+  const sortOptions = {
+    newest: '-createdAt',
+    oldest: 'createdAt',
+    // a-z means get all position in ordered state descending
+    'a-z': 'position',
+    // z-a means get all position in ordered state ascending
+    'z-a': '-position'
+  }
+
+  /// sortkey for assigning option for each sort options
+  // incase there's an option to sort  
+  const sortKey = sortOptions[sort] || sortOptions.newest
+  console.log("the search value", req.query);
+  /// for Pagination 
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  const totalJobs = await Job.countDocuments(queryObject);
+  const numOfPages = Math.ceil(totalJobs / limit)
+  console.log("the total jobs", totalJobs);
+  /// skip(n) will skip the n object from the response
+  /// limit(n) return only the n number of objects
+  const jobs = await Job.find(queryObject).sort(sortKey).skip(skip).limit(limit);
+  return res.status(StatusCodes.OK).json({ totalJobs, numOfPages, currentPage: page, numberOfCurrentItems: jobs.length, jobs });
 };
 
 /// request to het single job (using ID)
@@ -145,7 +191,7 @@ export const showStats = async (req, res) => {
     interview: stats.interview || 0,
     declined: stats.declined || 0,
   };
-  console.log(stats);
+  // console.log(stats);
 
 
 
@@ -176,6 +222,6 @@ export const showStats = async (req, res) => {
       count: item.count
     };
   }).reverse()
-  console.log(defaultMonthlyApps)
+  //console.log(defaultMonthlyApps)
   res.status(StatusCodes.OK).json({ defaultStats, defaultMonthlyApps });
 };
