@@ -1,7 +1,8 @@
 import { StatusCodes } from "http-status-codes";
 import User from "../models/userModel.js";
 import Job from "../models/jobModel.js";
-
+import cloudinary from "cloudinary";
+import { promises as fs } from "fs";
 export const getCurrentUser = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
   const userWithoutPassword = user.toJSON();
@@ -18,6 +19,7 @@ export const getApplicationStats = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
+  console.log(req.file);
   /// update user without password
   const newUser = { ...req.body };
   delete newUser.password;

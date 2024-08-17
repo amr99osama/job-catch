@@ -10,6 +10,8 @@ import {
   Profile,
   Admin,
   AddJob,
+  EditJob,
+  DeleteJob,
 } from "./pages";
 import AllJobs from "./pages/AllJobs";
 import { action as registerAction } from "./pages/Register";

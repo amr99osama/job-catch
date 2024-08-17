@@ -1,3 +1,36 @@
+import { FormRow, FormRowSelect, SubmitBtn } from "../components";
+import Wrapper from "../assets/wrappers/DashboardFormPage";
+import { useLoaderData } from "react-router-dom";
+import { JOB_STATUS, JOB_TYPE } from "../../../utils/constants";
+import { Form, redirect } from "react-router-dom";
+import { toast } from "react-toastify";
+import customFetch from "../utils/customFetch";
+
+export const loader = async ({ params }) => {
+  // will return the id coming from parameter ..
+  // console.log(params);
+  try {
+    const { data } = await customFetch.get(`/jobs/${params.id}`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    toast.error(error?.response?.data?.msg);
+    return redirect("/dashboard/all-jobs");
+  }
+};
+export const action = async ({ request, params }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  try {
+    await customFetch.patch(`/jobs/${params.id}`, data);
+    toast.success("Jobs Edited Successfully !");
+    return redirect("/dashboard/all-jobs");
+  } catch (error) {
+    toast.error(error?.response?.data?.msg);
+    return error;
+  }
+};
+
 const EditJob = () => {
   const job = useLoaderData();
   console.log(job);
@@ -42,5 +75,4 @@ const EditJob = () => {
     </Wrapper>
   );
 };
-
 export default EditJob;

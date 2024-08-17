@@ -5,12 +5,14 @@ import { NavLink } from "react-router-dom";
 // eslint-disable-next-line react/prop-types
 const NavLinks = ({ isBigSidebar }) => {
   const { user, toggleSidebar } = useDashboardContext();
-
   return (
     <div className="nav-links">
       {links.map((link) => {
         const { text, path, icon } = link;
         // admin user
+        const role = user.user.role;
+        //console.log(role);
+        if (role !== "admin" && path === "admin") return;
         return (
           <NavLink
             to={path}
